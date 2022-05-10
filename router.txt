@@ -1,0 +1,61 @@
+enable 
+    clock set 19:45:00  05 may 2022
+
+    configure terminal 
+    
+        hostname rt-01
+
+        service timestamps log datetime msec
+        service timestamps debug datetime msec
+        service password-encryption 
+        no ip domain-lookup 
+
+        banner motd # 
+      __      _______  _____  ____  
+     /\ \    / /_   _|/ ____|/ __ \ 
+    /  \ \  / /  | | | (___ | |  | |
+   / /\ \ \/ /   | |  \___ \| |  | |
+  / ____ \  /   _| |_ ____) | |__| |
+ /_/    \_\/   |_____|_____/ \____/ 
+                                    
+                                    
+ acesso autorizado somente a funcionarios #
+        
+        security passwords min-length 8
+        enable secret 123@senac
+        username senac password 123@senac
+        username tatuape secret 123@senac
+        line console 0
+        login local
+        logging synchronous 
+        exec-timeout 5 30 
+        exit
+    ip domain-name senac.br 
+    crypto key generate rsa general-key modulus 1024  
+    ip ssh version 2 
+    line vty 0 4 
+        login local
+        logging synchronous
+        exec-timeout 5 30 
+        transport input ssh
+        exit 
+    interface gigabitEthernet 0/0
+      description interface de gateway da rede LAN 
+      ip address 192.168.1.254 255.255.255.0
+      no shutdown
+      end
+    write
+
+    show ip interface brief 
+    teste de ping 
+!usuario apos o -l 
+ssh -l senac 192.168.1.254
+
+
+
+
+
+
+
+    
+
